@@ -18,6 +18,7 @@ import {
   Layers,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import CVPreview from "../components/CVPreview";
 
 interface TemplatesPageProps {
   onUseTemplate: (tpl: CVData) => void;
@@ -333,30 +334,35 @@ const TemplatesPage: React.FC<TemplatesPageProps> = ({ onUseTemplate }) => {
           {templates.map((tpl) => (
             <div
               key={tpl.id}
-              className="group bg-white border rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col"
+              className="group relative bg-white border rounded-xl overflow-hidden hover:shadow-xl hover:border-blue-200 transition-all duration-300 flex flex-col h-[400px]"
             >
-              {/* Preview Header */}
-              <div
-                className="h-3 bg-gradient-to-r from-gray-200 to-gray-300"
-                style={{ background: tpl.color }}
-              ></div>
+              {/* Live Preview Background */}
+              <div className="absolute inset-0 overflow-hidden bg-gray-50">
+                <div className="transform scale-[0.35] origin-top-left w-[210mm] h-[297mm] pointer-events-none select-none opacity-90">
+                  <CVPreview cvData={tpl.data} cvRef={{ current: null }} />
+                </div>
+              </div>
 
-              <div className="p-6 flex-1 flex flex-col">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-2 rounded-lg bg-gray-50 text-gray-700 group-hover:bg-gray-100 transition-colors">
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/90 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-300" />
+
+              {/* Content Layer */}
+              <div className="relative z-10 p-6 flex-1 flex flex-col justify-end">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="p-2 rounded-lg bg-white/80 backdrop-blur shadow-sm text-gray-700 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
                     {tpl.icon}
                   </div>
                   {tpl.id.includes("ats") && (
-                    <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-green-100 text-green-700 rounded-full">
+                    <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-green-100 text-green-700 rounded-full shadow-sm">
                       ATS Friendly
                     </span>
                   )}
                 </div>
 
-                <h3 className="text-lg font-bold text-gray-900 mb-2">
+                <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
                   {tpl.name}
                 </h3>
-                <p className="text-sm text-gray-500 mb-6 flex-1">
+                <p className="text-sm text-gray-500 mb-6 line-clamp-2">
                   {tpl.description}
                 </p>
 
@@ -385,7 +391,7 @@ const TemplatesPage: React.FC<TemplatesPageProps> = ({ onUseTemplate }) => {
                     onUseTemplate(data);
                     navigate("/");
                   }}
-                  className="w-full py-2.5 px-4 bg-gray-900 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2 group-hover:shadow-md"
+                  className="w-full py-2.5 px-4 bg-gray-900 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors shadow-sm hover:shadow-md flex items-center justify-center gap-2"
                 >
                   <span>Utiliser ce modèle</span>
                 </button>
