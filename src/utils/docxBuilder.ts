@@ -1,4 +1,4 @@
-import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Table, TableRow, TableCell, WidthType } from 'docx';
+import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Table, TableRow, TableCell, WidthType, ExternalHyperlink, ImageRun } from 'docx';
 import { CVData } from '../types/cv.types';
 import { stripTags, sanitizeHTML } from './sanitize';
 
@@ -51,17 +51,61 @@ export const buildCVDoc = async (cvData: CVData): Promise<Blob> => {
   const sections: any[] = [];
   const primary = (cvData.primaryColor || '#1e293b').replace('#', '').toUpperCase();
   const white = 'FFFFFF';
+  const gray = '666666';
+
+  const base64ToArrayBuffer = (dataUrl: string): ArrayBuffer | null => {
+    try {
+      const base64 = dataUrl.includes(',') ? dataUrl.split(',')[1] : dataUrl;
+      const binary = atob(base64);
+      const len = binary.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) bytes[i] = binary.charCodeAt(i);
+      return bytes.buffer;
+    } catch {
+      return null;
+    }
+  };
+
+  const detectProvider = (url: string) => {
+    const u = url.toLowerCase();
+    if (u.includes('github.com')) return 'GitHub';
+    if (u.includes('linkedin.com')) return 'LinkedIn';
+    if (u.includes('twitter.com') || u.includes('x.com')) return 'X';
+    if (u.includes('facebook.com')) return 'Facebook';
+    if (u.includes('instagram.com')) return 'Instagram';
+    if (u.includes('dribbble.com')) return 'Dribbble';
+    if (u.includes('gitlab.com')) return 'GitLab';
+    if (u.includes('youtube.com')) return 'YouTube';
+    return 'Lien';
+  };
 
   // Header with colored band (table for background color)
   const nameText = cvData.personalInfo.name || 'Votre Nom';
   const titleText = cvData.personalInfo.title || '';
-  const contacts = [
-    cvData.personalInfo.email,
-    cvData.personalInfo.phone,
-    ...(cvData.personalInfo.socials || []).map((s) => s.url),
-  ]
-    .filter(Boolean)
-    .join(' • ');
+  const contactsText = [cvData.personalInfo.email, cvData.personalInfo.phone].filter(Boolean).join(' • ');
+
+  // Build social hyperlinks as label buttons (text-only, clickable)
+  const socialParagraph =
+    cvData.personalInfo.socials && cvData.personalInfo.socials.length
+      ? new Paragraph({
+          alignment: AlignmentType.CENTER,
+          children: cvData.personalInfo.socials
+            .filter((s) => !!s.url)
+            .flatMap((s, idx) => {
+              const label = detectProvider(s.url);
+              const link = new ExternalHyperlink({
+                link: s.url,
+                children: [new TextRun({ text: label, bold: true, color: white })],
+              });
+              const spacer = idx < (cvData.personalInfo.socials?.length || 0) - 1 ? [new TextRun({ text: '   ' })] : [];
+              return [link, ...spacer];
+            }),
+          spacing: { after: 80 },
+        })
+      : new Paragraph({});
+
+  const photoArray =
+    cvData.personalInfo.photo ? base64ToArrayBuffer(cvData.personalInfo.photo) : null;
 
   sections.push(
     new Table({
@@ -70,28 +114,47 @@ export const buildCVDoc = async (cvData: CVData): Promise<Blob> => {
         new TableRow({
           children: [
             new TableCell({
-              width: { size: 100, type: WidthType.PERCENTAGE },
+              width: { size: 30, type: WidthType.PERCENTAGE },
+              shading: { fill: primary },
+              children: [
+                photoArray
+                  ? new Paragraph({
+                      alignment: AlignmentType.CENTER,
+                      children: [
+                        new ImageRun({
+                          data: photoArray,
+                          transformation: { width: 128, height: 128 },
+                        }),
+                      ],
+                      spacing: { after: 80 },
+                    })
+                  : new Paragraph({}),
+              ],
+            }),
+            new TableCell({
+              width: { size: 70, type: WidthType.PERCENTAGE },
               shading: { fill: primary },
               children: [
                 new Paragraph({
                   alignment: AlignmentType.CENTER,
                   children: [new TextRun({ text: nameText, bold: true, size: 48, color: white })],
-                  spacing: { after: 80 },
+                  spacing: { after: 60 },
                 }),
                 titleText
                   ? new Paragraph({
                       alignment: AlignmentType.CENTER,
                       children: [new TextRun({ text: titleText, italics: true, size: 28, color: white })],
-                      spacing: { after: 80 },
+                      spacing: { after: 40 },
                     })
                   : new Paragraph({}),
-                contacts
+                contactsText
                   ? new Paragraph({
                       alignment: AlignmentType.CENTER,
-                      children: [new TextRun({ text: contacts, size: 20, color: white })],
-                      spacing: { after: 120 },
+                      children: [new TextRun({ text: contactsText, size: 20, color: white })],
+                      spacing: { after: 40 },
                     })
                   : new Paragraph({}),
+                socialParagraph,
               ],
             }),
           ],
@@ -131,7 +194,7 @@ export const buildCVDoc = async (cvData: CVData): Promise<Blob> => {
       );
       sections.push(
         new Paragraph({
-          children: [new TextRun({ text: `${exp.startDate} - ${exp.endDate}`, size: 18, color: '666666' })],
+          children: [new TextRun({ text: `${exp.startDate} - ${exp.endDate}`, size: 18, color: gray })],
         }),
       );
       parseHtmlToParagraphs(exp.description).forEach((p) => sections.push(p));
@@ -165,7 +228,7 @@ export const buildCVDoc = async (cvData: CVData): Promise<Blob> => {
           children: [
             new TextRun({ text: e.degree, bold: true, size: 24 }),
             new TextRun({ text: ` — ${e.institution}`, size: 24 }),
-            new TextRun({ text: ` (${e.period})`, size: 22, color: '666666' }),
+            new TextRun({ text: ` (${e.period})`, size: 22, color: gray }),
           ],
           spacing: { after: 120 },
         }),

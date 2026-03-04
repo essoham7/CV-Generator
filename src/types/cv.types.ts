@@ -69,6 +69,8 @@ export interface CVData {
   languages: Language[];
   interests: Interest[];
   primaryColor: string;
+  fontFamily?: string;
+  templateId?: string;
 }
 
 export interface ScoreBoardProps {

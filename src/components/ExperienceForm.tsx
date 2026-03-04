@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Experience } from '../types/cv.types';
-import { Plus, Edit2, Trash2, Calendar, Building2 } from 'lucide-react';
+import { Plus, Edit2, Trash2, Calendar, Building2, Lightbulb } from 'lucide-react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { sanitizeHTML } from '../utils/sanitize';
@@ -76,6 +76,31 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({
 
   const handleInputChange = (field: keyof Omit<Experience, 'id'>, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const suggestionsByRole: Record<string, string[]> = {
+    'Développeur': [
+      'Conception et développement de features en React et TypeScript',
+      'Optimisation des performances et réduction du temps de chargement',
+      'Mise en place de tests unitaires et d’intégration',
+      'Participation aux revues de code et amélioration continue',
+    ],
+    'Chef de projet': [
+      'Pilotage du backlog et planification des sprints',
+      'Coordination des équipes et suivi des indicateurs',
+      'Gestion des risques et communication avec les parties prenantes',
+    ],
+    'Designer UI/UX': [
+      'Conception de maquettes haute fidélité et prototypes interactifs',
+      'Définition et maintenance du design system',
+      'Tests utilisateurs et itérations basées sur les retours',
+    ],
+  };
+  const [selectedRole, setSelectedRole] = useState<keyof typeof suggestionsByRole>('Développeur');
+  const insertSuggestions = (bullets: string[]) => {
+    const ul = `<ul>${bullets.map(b => `<li>${b}</li>`).join('')}</ul>`;
+    const next = (formData.description || '') + ul;
+    handleInputChange('description', sanitizeHTML(next));
   };
 
   return (
@@ -190,6 +215,46 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({
                 ]}
                 className="bg-white"
               />
+            </div>
+            <div className="rounded-lg border p-4 bg-white">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center text-gray-800">
+                  <Lightbulb className="w-4 h-4 mr-2 text-yellow-600" />
+                  <span className="text-sm font-medium">Suggestions (rôle)</span>
+                </div>
+                <select
+                  value={selectedRole}
+                  onChange={(e) => setSelectedRole(e.target.value as keyof typeof suggestionsByRole)}
+                  className="text-sm border rounded px-2 py-1"
+                >
+                  {Object.keys(suggestionsByRole).map((r) => (
+                    <option key={r} value={r}>{r}</option>
+                  ))}
+                </select>
+              </div>
+              <ul className="text-sm text-gray-700 list-disc pl-5 space-y-1">
+                {suggestionsByRole[selectedRole].map((s, idx) => (
+                  <li key={idx} className="flex items-start">
+                    <span className="flex-1">{s}</span>
+                    <button
+                      type="button"
+                      onClick={() => insertSuggestions([s])}
+                      className="ml-2 px-2 py-0.5 text-xs rounded bg-blue-50 text-blue-700 hover:bg-blue-100"
+                    >
+                      Ajouter
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-2">
+                <button
+                  type="button"
+                  onClick={() => insertSuggestions(suggestionsByRole[selectedRole])}
+                  className="px-3 py-1.5 text-sm rounded bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  Ajouter toutes les suggestions
+                </button>
+              </div>
             </div>
             
             <div className="flex space-x-3">
