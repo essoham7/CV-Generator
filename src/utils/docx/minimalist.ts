@@ -38,7 +38,7 @@ export const buildMinimalistLayout = (cvData: CVData) => {
         alignment: AlignmentType.CENTER,
         children: [
           new ImageRun({
-            data: photoArray as ArrayBuffer,
+            data: photoArray,
             transformation: { width: 100, height: 100 },
           }),
         ],
@@ -109,8 +109,8 @@ export const buildMinimalistLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120 },
         border: {
-          bottom: { color: lightGray, space: 1, value: BorderStyle.SINGLE, size: 6 },
-        },
+        bottom: { color: lightGray, space: 1, style: BorderStyle.SINGLE, size: 6 },
+      },
       }),
     );
     sections.push(
@@ -135,8 +135,8 @@ export const buildMinimalistLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120, before: 200 },
         border: {
-          bottom: { color: lightGray, space: 1, value: BorderStyle.SINGLE, size: 6 },
-        },
+        bottom: { color: lightGray, space: 1, style: BorderStyle.SINGLE, size: 6 },
+      },
       }),
     );
 
@@ -180,8 +180,8 @@ export const buildMinimalistLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120, before: 300 },
         border: {
-          bottom: { color: lightGray, space: 1, value: BorderStyle.SINGLE, size: 6 },
-        },
+        bottom: { color: lightGray, space: 1, style: BorderStyle.SINGLE, size: 6 },
+      },
       }),
     );
 
@@ -223,8 +223,8 @@ export const buildMinimalistLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120 },
         border: {
-          bottom: { color: lightGray, space: 1, value: BorderStyle.SINGLE, size: 6 },
-        },
+        bottom: { color: lightGray, space: 1, style: BorderStyle.SINGLE, size: 6 },
+      },
       }),
     );
     const text = cvData.skills
@@ -247,8 +247,8 @@ export const buildMinimalistLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120 },
         border: {
-          bottom: { color: lightGray, space: 1, value: BorderStyle.SINGLE, size: 6 },
-        },
+        bottom: { color: lightGray, space: 1, style: BorderStyle.SINGLE, size: 6 },
+      },
       }),
     );
     const text = cvData.languages

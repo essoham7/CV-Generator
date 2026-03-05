@@ -39,7 +39,7 @@ export const buildSidebarLayout = (cvData: CVData) => {
         alignment: AlignmentType.CENTER,
         children: [
           new ImageRun({
-            data: photoArray as ArrayBuffer,
+            data: photoArray,
             transformation: { width: 120, height: 120 },
           }),
         ],
@@ -91,7 +91,7 @@ export const buildSidebarLayout = (cvData: CVData) => {
       ],
       spacing: { after: 100 },
       border: {
-        bottom: { color: "FFFFFF", space: 1, value: BorderStyle.SINGLE, size: 6 },
+        bottom: { color: "FFFFFF", space: 1, style: BorderStyle.SINGLE, size: 6 },
       },
     }),
   );
@@ -145,8 +145,8 @@ export const buildSidebarLayout = (cvData: CVData) => {
         ],
         spacing: { after: 100 },
         border: {
-          bottom: { color: "FFFFFF", space: 1, value: BorderStyle.SINGLE, size: 6 },
-        },
+        bottom: { color: "FFFFFF", space: 1, style: BorderStyle.SINGLE, size: 6 },
+      },
       }),
     );
 
@@ -188,8 +188,8 @@ export const buildSidebarLayout = (cvData: CVData) => {
         ],
         spacing: { after: 100 },
         border: {
-          bottom: { color: "FFFFFF", space: 1, value: BorderStyle.SINGLE, size: 6 },
-        },
+        bottom: { color: "FFFFFF", space: 1, style: BorderStyle.SINGLE, size: 6 },
+      },
       }),
     );
     cvData.languages.forEach((l) => {
@@ -222,8 +222,8 @@ export const buildSidebarLayout = (cvData: CVData) => {
         ],
         spacing: { after: 100 },
         border: {
-          bottom: { color: primary, space: 1, value: BorderStyle.SINGLE, size: 12 },
-        },
+        bottom: { color: primary, space: 1, style: BorderStyle.SINGLE, size: 12 },
+      },
       }),
     );
     mainContent.push(
@@ -248,8 +248,8 @@ export const buildSidebarLayout = (cvData: CVData) => {
         ],
         spacing: { after: 200 },
         border: {
-          bottom: { color: primary, space: 1, value: BorderStyle.SINGLE, size: 12 },
-        },
+        bottom: { color: primary, space: 1, style: BorderStyle.SINGLE, size: 12 },
+      },
       }),
     );
 
@@ -294,8 +294,8 @@ export const buildSidebarLayout = (cvData: CVData) => {
         ],
         spacing: { after: 200 },
         border: {
-          bottom: { color: primary, space: 1, value: BorderStyle.SINGLE, size: 12 },
-        },
+        bottom: { color: primary, space: 1, style: BorderStyle.SINGLE, size: 12 },
+      },
       }),
     );
 
@@ -334,8 +334,8 @@ export const buildSidebarLayout = (cvData: CVData) => {
         ],
         spacing: { after: 200 },
         border: {
-          bottom: { color: primary, space: 1, value: BorderStyle.SINGLE, size: 12 },
-        },
+        bottom: { color: primary, space: 1, style: BorderStyle.SINGLE, size: 12 },
+      },
       }),
     );
     cvData.certifications.forEach((c) => {

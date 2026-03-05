@@ -74,7 +74,7 @@ const createBaseData = (overrides: Partial<CVData> = {}): CVData => ({
       description:
         "Focus sur l'architecture distribuée et l'intelligence artificielle.",
     },
-  ],
+  ] as CVData["education"],
   certifications: [],
   references: [],
   languages: [

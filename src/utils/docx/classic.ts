@@ -119,8 +119,8 @@ export const buildClassicLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120, before: 200 },
         border: {
-          bottom: { color: primary, space: 1, value: BorderStyle.SINGLE, size: 6 },
-        },
+        bottom: { color: "FFFFFF", space: 1, style: BorderStyle.SINGLE, size: 6 },
+      },
       }),
     );
 
@@ -173,8 +173,8 @@ export const buildClassicLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120, before: 300 },
         border: {
-          bottom: { color: primary, space: 1, value: BorderStyle.SINGLE, size: 6 },
-        },
+        bottom: { color: primary, space: 1, style: BorderStyle.SINGLE, size: 6 },
+      },
       }),
     );
 
@@ -211,8 +211,8 @@ export const buildClassicLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120 },
         border: {
-          bottom: { color: primary, space: 1, value: BorderStyle.SINGLE, size: 6 },
-        },
+        bottom: { color: primary, space: 1, style: BorderStyle.SINGLE, size: 6 },
+      },
       }),
     );
     const text = cvData.skills
@@ -235,8 +235,8 @@ export const buildClassicLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120 },
         border: {
-          bottom: { color: primary, space: 1, value: BorderStyle.SINGLE, size: 6 },
-        },
+        bottom: { color: primary, space: 1, style: BorderStyle.SINGLE, size: 6 },
+      },
       }),
     );
     const text = cvData.languages

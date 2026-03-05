@@ -74,9 +74,9 @@ export const buildModernLayout = (cvData: CVData) => {
                       alignment: AlignmentType.CENTER,
                       children: [
                         new ImageRun({
-                          data: photoArray as ArrayBuffer,
-                          transformation: { width: 128, height: 128 },
-                        }),
+            data: photoArray as ArrayBuffer,
+            transformation: { width: 128, height: 128 },
+          }),
                       ],
                       spacing: { after: 80 },
                     })
