@@ -6,31 +6,26 @@ import {
   TableRow,
   TableCell,
   WidthType,
-  ExternalHyperlink,
-  ImageRun,
   BorderStyle,
 } from "docx";
 import { CVData } from "../../types/cv.types";
-import {
-  para,
-  parseHtmlToParagraphs,
-  base64ToArrayBuffer,
-  detectProvider,
-} from "./docxUtils";
+import { parseHtmlToParagraphs, detectProvider } from "./docxUtils";
 
 export const buildClassicLayout = (cvData: CVData) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const sections: any[] = [];
   const primary = (cvData.primaryColor || "#2c3e50")
     .replace("#", "")
     .toUpperCase();
-  const white = "FFFFFF";
+  // const white = "FFFFFF"; // Unused
   const gray = "666666";
 
-  const photoArray = cvData.personalInfo.photo
-    ? base64ToArrayBuffer(cvData.personalInfo.photo)
-    : null;
+  // const photoArray = cvData.personalInfo.photo // Unused in classic layout
+  //   ? base64ToArrayBuffer(cvData.personalInfo.photo)
+  //   : null;
 
   // Header
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sections.push(
     new Paragraph({
       alignment: AlignmentType.CENTER,
@@ -77,7 +72,12 @@ export const buildClassicLayout = (cvData: CVData) => {
       children: [new TextRun({ text: contacts, size: 20, color: gray })],
       spacing: { after: 400 },
       border: {
-        bottom: { color: primary, space: 1, value: BorderStyle.SINGLE, size: 12 },
+        bottom: {
+          color: primary,
+          space: 1,
+          style: BorderStyle.SINGLE,
+          size: 12,
+        },
       },
     }),
   );
@@ -119,8 +119,13 @@ export const buildClassicLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120, before: 200 },
         border: {
-        bottom: { color: "FFFFFF", space: 1, style: BorderStyle.SINGLE, size: 6 },
-      },
+          bottom: {
+            color: primary,
+            space: 1,
+            style: BorderStyle.SINGLE,
+            size: 6,
+          },
+        },
       }),
     );
 
@@ -173,8 +178,13 @@ export const buildClassicLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120, before: 300 },
         border: {
-        bottom: { color: primary, space: 1, style: BorderStyle.SINGLE, size: 6 },
-      },
+          bottom: {
+            color: primary,
+            space: 1,
+            style: BorderStyle.SINGLE,
+            size: 6,
+          },
+        },
       }),
     );
 
@@ -190,13 +200,16 @@ export const buildClassicLayout = (cvData: CVData) => {
       );
       sections.push(
         new Paragraph({
-          children: [new TextRun({ text: edu.degree, italics: true, size: 22 })],
+          children: [
+            new TextRun({ text: edu.degree, italics: true, size: 22 }),
+          ],
         }),
       );
     });
   }
 
   // Skills & Languages (2 Columns)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const skillsContent: any[] = [];
   if (cvData.skills.length) {
     skillsContent.push(
@@ -211,8 +224,13 @@ export const buildClassicLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120 },
         border: {
-        bottom: { color: primary, space: 1, style: BorderStyle.SINGLE, size: 6 },
-      },
+          bottom: {
+            color: primary,
+            space: 1,
+            style: BorderStyle.SINGLE,
+            size: 6,
+          },
+        },
       }),
     );
     const text = cvData.skills
@@ -221,6 +239,7 @@ export const buildClassicLayout = (cvData: CVData) => {
     skillsContent.push(new Paragraph({ children: [new TextRun({ text })] }));
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const languagesContent: any[] = [];
   if (cvData.languages.length) {
     languagesContent.push(
@@ -235,8 +254,13 @@ export const buildClassicLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120 },
         border: {
-        bottom: { color: primary, space: 1, style: BorderStyle.SINGLE, size: 6 },
-      },
+          bottom: {
+            color: primary,
+            space: 1,
+            style: BorderStyle.SINGLE,
+            size: 6,
+          },
+        },
       }),
     );
     const text = cvData.languages

@@ -30,6 +30,7 @@ export const buildSidebarLayout = (cvData: CVData) => {
     : null;
 
   // Sidebar Content (Left Column)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const sidebarContent: any[] = [];
 
   // Photo
@@ -206,6 +207,7 @@ export const buildSidebarLayout = (cvData: CVData) => {
   }
 
   // Main Content (Right Column)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mainContent: any[] = [];
 
   // Summary

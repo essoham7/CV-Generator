@@ -19,6 +19,7 @@ import {
 } from "./docxUtils";
 
 export const buildMinimalistLayout = (cvData: CVData) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const sections: any[] = [];
   const primary = (cvData.primaryColor || "#57534e")
     .replace("#", "")
@@ -209,6 +210,7 @@ export const buildMinimalistLayout = (cvData: CVData) => {
   }
 
   // Skills & Languages (2 Columns)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const skillsContent: any[] = [];
   if (cvData.skills.length) {
     skillsContent.push(
@@ -233,6 +235,7 @@ export const buildMinimalistLayout = (cvData: CVData) => {
     skillsContent.push(new Paragraph({ children: [new TextRun({ text })] }));
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const languagesContent: any[] = [];
   if (cvData.languages.length) {
     languagesContent.push(

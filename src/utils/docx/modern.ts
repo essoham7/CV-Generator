@@ -18,6 +18,7 @@ import {
 } from "./docxUtils";
 
 export const buildModernLayout = (cvData: CVData) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const sections: any[] = [];
   const primary = (cvData.primaryColor || "#1e293b")
     .replace("#", "")

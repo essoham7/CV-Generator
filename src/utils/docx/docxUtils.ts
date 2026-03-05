@@ -8,6 +8,7 @@ import {
 import { stripTags, sanitizeHTML } from "../sanitize";
 
 export const para = (text: string, options: any = {}) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   new Paragraph({
     children: [new TextRun({ text, ...options })],
     spacing: { after: 120 },

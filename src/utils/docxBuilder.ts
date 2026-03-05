@@ -6,6 +6,7 @@ import { buildClassicLayout } from "./docx/classic";
 import { buildMinimalistLayout } from "./docx/minimalist";
 
 export const buildCVDoc = async (cvData: CVData): Promise<Blob> => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let sections: any[] = [];
   const id = cvData.templateId || "modern";
 

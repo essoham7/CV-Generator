@@ -674,8 +674,8 @@ function EditorView({
 function App() {
   const [cvData, dispatch] = useReducer(cvReducer, initialCVData);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoading, setIsLoading] = useState(false);
-  // isLoading is currently unused in UI but kept for state logic if needed
   const cvRef = useRef<HTMLDivElement>(null);
 
   return (
