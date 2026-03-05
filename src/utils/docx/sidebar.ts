@@ -12,7 +12,6 @@ import {
 } from "docx";
 import { CVData } from "../../types/cv.types";
 import {
-  para,
   parseHtmlToParagraphs,
   base64ToArrayBuffer,
   detectProvider,
@@ -30,8 +29,7 @@ export const buildSidebarLayout = (cvData: CVData) => {
     : null;
 
   // Sidebar Content (Left Column)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const sidebarContent: any[] = [];
+  const sidebarContent: (Paragraph | Table)[] = [];
 
   // Photo
   if (photoArray) {
@@ -40,9 +38,9 @@ export const buildSidebarLayout = (cvData: CVData) => {
         alignment: AlignmentType.CENTER,
         children: [
           new ImageRun({
-            data: photoArray,
+            data: photoArray.buffer,
             transformation: { width: 120, height: 120 },
-          }),
+          } as any), // eslint-disable-line @typescript-eslint/no-explicit-any
         ],
         spacing: { after: 200 },
       }),
@@ -92,7 +90,12 @@ export const buildSidebarLayout = (cvData: CVData) => {
       ],
       spacing: { after: 100 },
       border: {
-        bottom: { color: "FFFFFF", space: 1, style: BorderStyle.SINGLE, size: 6 },
+        bottom: {
+          color: "FFFFFF",
+          space: 1,
+          style: BorderStyle.SINGLE,
+          size: 6,
+        },
       },
     }),
   );
@@ -146,8 +149,13 @@ export const buildSidebarLayout = (cvData: CVData) => {
         ],
         spacing: { after: 100 },
         border: {
-        bottom: { color: "FFFFFF", space: 1, style: BorderStyle.SINGLE, size: 6 },
-      },
+          bottom: {
+            color: "FFFFFF",
+            space: 1,
+            style: BorderStyle.SINGLE,
+            size: 6,
+          },
+        },
       }),
     );
 
@@ -155,7 +163,12 @@ export const buildSidebarLayout = (cvData: CVData) => {
       sidebarContent.push(
         new Paragraph({
           children: [
-            new TextRun({ text: skill.name, color: white, size: 18, bold: true }),
+            new TextRun({
+              text: skill.name,
+              color: white,
+              size: 18,
+              bold: true,
+            }),
           ],
         }),
       );
@@ -189,8 +202,13 @@ export const buildSidebarLayout = (cvData: CVData) => {
         ],
         spacing: { after: 100 },
         border: {
-        bottom: { color: "FFFFFF", space: 1, style: BorderStyle.SINGLE, size: 6 },
-      },
+          bottom: {
+            color: "FFFFFF",
+            space: 1,
+            style: BorderStyle.SINGLE,
+            size: 6,
+          },
+        },
       }),
     );
     cvData.languages.forEach((l) => {
@@ -207,8 +225,7 @@ export const buildSidebarLayout = (cvData: CVData) => {
   }
 
   // Main Content (Right Column)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mainContent: any[] = [];
+  const mainContent: (Paragraph | Table)[] = [];
 
   // Summary
   if (cvData.personalInfo.summary?.trim()) {
@@ -224,8 +241,13 @@ export const buildSidebarLayout = (cvData: CVData) => {
         ],
         spacing: { after: 100 },
         border: {
-        bottom: { color: primary, space: 1, style: BorderStyle.SINGLE, size: 12 },
-      },
+          bottom: {
+            color: primary,
+            space: 1,
+            style: BorderStyle.SINGLE,
+            size: 12,
+          },
+        },
       }),
     );
     mainContent.push(
@@ -250,23 +272,31 @@ export const buildSidebarLayout = (cvData: CVData) => {
         ],
         spacing: { after: 200 },
         border: {
-        bottom: { color: primary, space: 1, style: BorderStyle.SINGLE, size: 12 },
-      },
+          bottom: {
+            color: primary,
+            space: 1,
+            style: BorderStyle.SINGLE,
+            size: 12,
+          },
+        },
       }),
     );
 
     cvData.experiences.forEach((exp) => {
       mainContent.push(
         new Paragraph({
-          children: [
-            new TextRun({ text: exp.position, bold: true, size: 24 }),
-          ],
+          children: [new TextRun({ text: exp.position, bold: true, size: 24 })],
         }),
       );
       mainContent.push(
         new Paragraph({
           children: [
-            new TextRun({ text: exp.company, bold: true, size: 20, color: gray }),
+            new TextRun({
+              text: exp.company,
+              bold: true,
+              size: 20,
+              color: gray,
+            }),
             new TextRun({ text: " | ", color: gray }),
             new TextRun({
               text: `${exp.startDate} - ${exp.endDate}`,
@@ -277,7 +307,9 @@ export const buildSidebarLayout = (cvData: CVData) => {
           spacing: { after: 100 },
         }),
       );
-      parseHtmlToParagraphs(exp.description).forEach((p) => mainContent.push(p));
+      parseHtmlToParagraphs(exp.description).forEach((p) =>
+        mainContent.push(p),
+      );
       mainContent.push(new Paragraph({ spacing: { after: 200 } }));
     });
   }
@@ -296,8 +328,13 @@ export const buildSidebarLayout = (cvData: CVData) => {
         ],
         spacing: { after: 200 },
         border: {
-        bottom: { color: primary, space: 1, style: BorderStyle.SINGLE, size: 12 },
-      },
+          bottom: {
+            color: primary,
+            space: 1,
+            style: BorderStyle.SINGLE,
+            size: 12,
+          },
+        },
       }),
     );
 
@@ -336,8 +373,13 @@ export const buildSidebarLayout = (cvData: CVData) => {
         ],
         spacing: { after: 200 },
         border: {
-        bottom: { color: primary, space: 1, style: BorderStyle.SINGLE, size: 12 },
-      },
+          bottom: {
+            color: primary,
+            space: 1,
+            style: BorderStyle.SINGLE,
+            size: 12,
+          },
+        },
       }),
     );
     cvData.certifications.forEach((c) => {

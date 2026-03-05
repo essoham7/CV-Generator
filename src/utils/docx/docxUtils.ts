@@ -1,14 +1,12 @@
 import {
   Paragraph,
   TextRun,
-  AlignmentType,
-  ExternalHyperlink,
-  ImageRun,
+ 
 } from "docx";
 import { stripTags, sanitizeHTML } from "../sanitize";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const para = (text: string, options: any = {}) =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   new Paragraph({
     children: [new TextRun({ text, ...options })],
     spacing: { after: 120 },
@@ -51,14 +49,14 @@ export const parseHtmlToParagraphs = (html: string): Paragraph[] => {
   return result.length ? result : [para(stripTags(clean))];
 };
 
-export const base64ToArrayBuffer = (dataUrl: string): ArrayBuffer | null => {
+export const base64ToArrayBuffer = (dataUrl: string): Uint8Array | null => {
   try {
     const base64 = dataUrl.includes(",") ? dataUrl.split(",")[1] : dataUrl;
     const binary = atob(base64);
     const len = binary.length;
     const bytes = new Uint8Array(len);
     for (let i = 0; i < len; i++) bytes[i] = binary.charCodeAt(i);
-    return bytes.buffer;
+    return bytes;
   } catch {
     return null;
   }

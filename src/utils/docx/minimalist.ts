@@ -6,25 +6,21 @@ import {
   TableRow,
   TableCell,
   WidthType,
-  ExternalHyperlink,
   ImageRun,
   BorderStyle,
 } from "docx";
 import { CVData } from "../../types/cv.types";
 import {
-  para,
   parseHtmlToParagraphs,
   base64ToArrayBuffer,
   detectProvider,
 } from "./docxUtils";
 
 export const buildMinimalistLayout = (cvData: CVData) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const sections: any[] = [];
+  const sections: (Paragraph | Table)[] = [];
   const primary = (cvData.primaryColor || "#57534e")
     .replace("#", "")
     .toUpperCase();
-  const white = "FFFFFF";
   const gray = "666666";
   const lightGray = "CCCCCC";
 
@@ -39,9 +35,9 @@ export const buildMinimalistLayout = (cvData: CVData) => {
         alignment: AlignmentType.CENTER,
         children: [
           new ImageRun({
-            data: photoArray,
+            data: photoArray.buffer,
             transformation: { width: 100, height: 100 },
-          }),
+          } as any), // eslint-disable-line @typescript-eslint/no-explicit-any
         ],
         spacing: { after: 120 },
       }),
@@ -110,8 +106,13 @@ export const buildMinimalistLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120 },
         border: {
-        bottom: { color: lightGray, space: 1, style: BorderStyle.SINGLE, size: 6 },
-      },
+          bottom: {
+            color: lightGray,
+            space: 1,
+            style: BorderStyle.SINGLE,
+            size: 6,
+          },
+        },
       }),
     );
     sections.push(
@@ -136,17 +137,20 @@ export const buildMinimalistLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120, before: 200 },
         border: {
-        bottom: { color: lightGray, space: 1, style: BorderStyle.SINGLE, size: 6 },
-      },
+          bottom: {
+            color: lightGray,
+            space: 1,
+            style: BorderStyle.SINGLE,
+            size: 6,
+          },
+        },
       }),
     );
 
     cvData.experiences.forEach((exp) => {
       sections.push(
         new Paragraph({
-          children: [
-            new TextRun({ text: exp.position, bold: true, size: 24 }),
-          ],
+          children: [new TextRun({ text: exp.position, bold: true, size: 24 })],
           spacing: { before: 120 },
         }),
       );
@@ -181,8 +185,13 @@ export const buildMinimalistLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120, before: 300 },
         border: {
-        bottom: { color: lightGray, space: 1, style: BorderStyle.SINGLE, size: 6 },
-      },
+          bottom: {
+            color: lightGray,
+            space: 1,
+            style: BorderStyle.SINGLE,
+            size: 6,
+          },
+        },
       }),
     );
 
@@ -210,8 +219,7 @@ export const buildMinimalistLayout = (cvData: CVData) => {
   }
 
   // Skills & Languages (2 Columns)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const skillsContent: any[] = [];
+  const skillsContent: (Paragraph | Table)[] = [];
   if (cvData.skills.length) {
     skillsContent.push(
       new Paragraph({
@@ -225,8 +233,13 @@ export const buildMinimalistLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120 },
         border: {
-        bottom: { color: lightGray, space: 1, style: BorderStyle.SINGLE, size: 6 },
-      },
+          bottom: {
+            color: lightGray,
+            space: 1,
+            style: BorderStyle.SINGLE,
+            size: 6,
+          },
+        },
       }),
     );
     const text = cvData.skills
@@ -235,8 +248,7 @@ export const buildMinimalistLayout = (cvData: CVData) => {
     skillsContent.push(new Paragraph({ children: [new TextRun({ text })] }));
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const languagesContent: any[] = [];
+  const languagesContent: (Paragraph | Table)[] = [];
   if (cvData.languages.length) {
     languagesContent.push(
       new Paragraph({
@@ -250,8 +262,13 @@ export const buildMinimalistLayout = (cvData: CVData) => {
         ],
         spacing: { after: 120 },
         border: {
-        bottom: { color: lightGray, space: 1, style: BorderStyle.SINGLE, size: 6 },
-      },
+          bottom: {
+            color: lightGray,
+            space: 1,
+            style: BorderStyle.SINGLE,
+            size: 6,
+          },
+        },
       }),
     );
     const text = cvData.languages

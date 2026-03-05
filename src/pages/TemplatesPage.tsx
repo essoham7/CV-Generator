@@ -14,7 +14,6 @@ import {
   Star,
   Award,
   BookOpen,
-  Globe,
   Layers,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -274,7 +273,7 @@ const templates = [
 ];
 
 // Fallback icon component if needed
-function SettingsIcon(props: any) {
+function SettingsIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

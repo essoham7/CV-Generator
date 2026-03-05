@@ -31,17 +31,17 @@ const ScoreBoard: React.FC<ScoreBoardProps> = ({
     return "À améliorer";
   };
 
-  const circumference = 2 * Math.PI * 45;
-  const strokeDashoffset =
-    circumference - (animatedScore / 100) * circumference;
+  // const circumference = 2 * Math.PI * 45;
+  // const strokeDashoffset =
+  //   circumference - (animatedScore / 100) * circumference;
 
-  const rootClasses = compact
-    ? "flex items-center space-x-3 shrink-0"
-    : "flex items-center space-x-4 bg-white rounded-lg p-4 shadow-sm border";
+  // const rootClasses = compact
+  //   ? "flex items-center space-x-3 shrink-0"
+  //   : "flex items-center space-x-4 bg-white rounded-lg p-4 shadow-sm border";
 
-  const svgSize = compact ? "w-12 h-12" : "w-24 h-24";
-  const numberSizeClass = compact ? "text-lg" : "text-2xl";
-  const labelClass = compact ? "text-xs" : "text-sm";
+  // const svgSize = compact ? "w-12 h-12" : "w-24 h-24";
+  // const numberSizeClass = compact ? "text-lg" : "text-2xl";
+  // const labelClass = compact ? "text-xs" : "text-sm";
 
   return (
     <div

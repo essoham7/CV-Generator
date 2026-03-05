@@ -11,15 +11,13 @@ import {
 } from "docx";
 import { CVData } from "../../types/cv.types";
 import {
-  para,
   parseHtmlToParagraphs,
   base64ToArrayBuffer,
   detectProvider,
 } from "./docxUtils";
 
 export const buildModernLayout = (cvData: CVData) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const sections: any[] = [];
+  const sections: (Paragraph | Table)[] = [];
   const primary = (cvData.primaryColor || "#1e293b")
     .replace("#", "")
     .toUpperCase();
@@ -75,9 +73,9 @@ export const buildModernLayout = (cvData: CVData) => {
                       alignment: AlignmentType.CENTER,
                       children: [
                         new ImageRun({
-            data: photoArray as ArrayBuffer,
-            transformation: { width: 128, height: 128 },
-          }),
+                          data: photoArray.buffer,
+                          transformation: { width: 128, height: 128 },
+                        } as any), // eslint-disable-line @typescript-eslint/no-explicit-any
                       ],
                       spacing: { after: 80 },
                     })
@@ -356,7 +354,9 @@ export const buildModernLayout = (cvData: CVData) => {
     sections.push(
       new Paragraph({
         children: [
-          new TextRun({ text: cvData.interests.map((i) => i.name).join(" • ") }),
+          new TextRun({
+            text: cvData.interests.map((i) => i.name).join(" • "),
+          }),
         ],
         spacing: { after: 120 },
       }),

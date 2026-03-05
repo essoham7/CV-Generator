@@ -14,9 +14,6 @@ export const sanitizeHTML = (html: string): string => {
       'BR',
       'A',
     ]);
-    const allowedAttrs: Record<string, Set<string>> = {
-      A: new Set(['href']),
-    };
 
     const cleanNode = (node: Node): Node | null => {
       if (node.nodeType === Node.TEXT_NODE) return node.cloneNode(true);

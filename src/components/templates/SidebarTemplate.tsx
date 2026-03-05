@@ -1,6 +1,6 @@
 import React from "react";
 import { CVData } from "../../types/cv.types";
-import { Mail, Phone, MapPin, Globe } from "lucide-react";
+import { Mail, Phone, Globe } from "lucide-react";
 import { sanitizeHTML } from "../../utils/sanitize";
 
 interface TemplateProps {
@@ -18,7 +18,13 @@ const SidebarTemplate: React.FC<TemplateProps> = ({ cvData }) => {
     primaryColor,
   } = cvData;
 
-  const SidebarSection = ({ title, children }: { title: string, children: React.ReactNode }) => (
+  const SidebarSection = ({
+    title,
+    children,
+  }: {
+    title: string;
+    children: React.ReactNode;
+  }) => (
     <div className="mb-8">
       <h3 className="text-lg font-bold uppercase tracking-wider mb-4 border-b border-white/20 pb-2">
         {title}
@@ -30,15 +36,15 @@ const SidebarTemplate: React.FC<TemplateProps> = ({ cvData }) => {
   return (
     <div className="bg-white shadow-xl min-h-[297mm] flex flex-col md:flex-row font-sans">
       {/* Sidebar (Left) */}
-      <div 
+      <div
         className="w-full md:w-1/3 text-white p-8"
         style={{ backgroundColor: primaryColor }}
       >
         <div className="text-center mb-8">
           {personalInfo.photo && (
-            <img 
-              src={personalInfo.photo} 
-              alt={personalInfo.name} 
+            <img
+              src={personalInfo.photo}
+              alt={personalInfo.name}
               className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-white/30 object-cover"
             />
           )}
@@ -63,8 +69,14 @@ const SidebarTemplate: React.FC<TemplateProps> = ({ cvData }) => {
               <span>{personalInfo.phone}</span>
             </div>
           )}
-          {personalInfo.socials?.map(s => (
-            <a key={s.id} href={s.url} target="_blank" rel="noreferrer" className="flex items-center gap-3 hover:text-white transition-colors">
+          {personalInfo.socials?.map((s) => (
+            <a
+              key={s.id}
+              href={s.url}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-3 hover:text-white transition-colors"
+            >
               <Globe className="w-4 h-4 shrink-0" />
               <span className="truncate">{new URL(s.url).hostname}</span>
             </a>
@@ -74,8 +86,11 @@ const SidebarTemplate: React.FC<TemplateProps> = ({ cvData }) => {
         {skills.length > 0 && (
           <SidebarSection title="Compétences">
             <div className="flex flex-wrap gap-2">
-              {skills.map(skill => (
-                <span key={skill.id} className="bg-white/10 px-2 py-1 rounded text-sm">
+              {skills.map((skill) => (
+                <span
+                  key={skill.id}
+                  className="bg-white/10 px-2 py-1 rounded text-sm"
+                >
                   {skill.name}
                 </span>
               ))}
@@ -86,7 +101,7 @@ const SidebarTemplate: React.FC<TemplateProps> = ({ cvData }) => {
         {languages.length > 0 && (
           <SidebarSection title="Langues">
             <ul className="space-y-2 text-sm">
-              {languages.map(lang => (
+              {languages.map((lang) => (
                 <li key={lang.id} className="flex justify-between">
                   <span>{lang.name}</span>
                   <span className="opacity-70">{lang.level}%</span>
@@ -95,11 +110,11 @@ const SidebarTemplate: React.FC<TemplateProps> = ({ cvData }) => {
             </ul>
           </SidebarSection>
         )}
-        
+
         {interests.length > 0 && (
           <SidebarSection title="Intérêts">
             <ul className="list-disc list-inside text-sm opacity-90">
-              {interests.map(i => (
+              {interests.map((i) => (
                 <li key={i.id}>{i.name}</li>
               ))}
             </ul>
@@ -130,15 +145,21 @@ const SidebarTemplate: React.FC<TemplateProps> = ({ cvData }) => {
                 <div key={exp.id} className="relative">
                   <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-white border-2 border-gray-400"></div>
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
-                    <h3 className="text-lg font-bold text-gray-900">{exp.position}</h3>
+                    <h3 className="text-lg font-bold text-gray-900">
+                      {exp.position}
+                    </h3>
                     <span className="text-sm text-gray-500 font-medium whitespace-nowrap bg-gray-100 px-2 py-0.5 rounded">
                       {exp.startDate} - {exp.endDate}
                     </span>
                   </div>
-                  <div className="text-gray-600 font-semibold mb-2">{exp.company}</div>
-                  <div 
+                  <div className="text-gray-600 font-semibold mb-2">
+                    {exp.company}
+                  </div>
+                  <div
                     className="text-gray-600 text-sm leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: sanitizeHTML(exp.description) }}
+                    dangerouslySetInnerHTML={{
+                      __html: sanitizeHTML(exp.description),
+                    }}
                   />
                 </div>
               ))}
@@ -153,9 +174,14 @@ const SidebarTemplate: React.FC<TemplateProps> = ({ cvData }) => {
             </h2>
             <div className="grid gap-6">
               {education.map((edu) => (
-                <div key={edu.id} className="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                <div
+                  key={edu.id}
+                  className="bg-gray-50 p-4 rounded-lg border border-gray-100"
+                >
                   <div className="flex justify-between items-start mb-1">
-                    <h3 className="font-bold text-gray-900">{edu.institution}</h3>
+                    <h3 className="font-bold text-gray-900">
+                      {edu.institution}
+                    </h3>
                     <span className="text-xs font-bold text-gray-500 bg-white px-2 py-1 rounded border">
                       {edu.period}
                     </span>

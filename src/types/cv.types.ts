@@ -57,6 +57,7 @@ export interface Education {
   degree: string;
   institution: string;
   period: string; // "YYYY - YYYY" ou "YYYY - Présent"
+  description?: string;
 }
 
 export interface CVData {
