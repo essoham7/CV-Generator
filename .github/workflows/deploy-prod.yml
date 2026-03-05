@@ -16,21 +16,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: "yarn"
-
-      - name: Remove npm lockfile to avoid mixing managers
-        run: rm -f package-lock.json
-
-      - name: Ensure Yarn is available
-        run: |
-          npm install -g yarn
-          yarn --version
+          cache: "npm"
 
       - name: Install dependencies
-        run: yarn install --non-interactive --frozen-lockfile
+        run: npm ci
 
       - name: Build project
-        run: yarn build
+        run: npm run build
 
       - name: Install Wrangler
         run: npm install -g wrangler@latest
