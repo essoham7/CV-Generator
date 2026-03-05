@@ -30,47 +30,49 @@ const makeId = () =>
 // Helper to create base CV data
 const createBaseData = (overrides: Partial<CVData> = {}): CVData => ({
   personalInfo: {
-    name: "Alexandre Dupont",
-    title: "Expert en Stratégie",
-    email: "alex.dupont@example.com",
-    phone: "+33 6 12 34 56 78",
+    name: "Essoham SIBABI",
+    title: "Developpeur Full Stack",
+    email: "esso.sibabi@example.com",
+    phone: "+228 90 90 90 90",
     summary:
-      "Professionnel orienté résultats avec 5+ ans d'expérience dans la gestion de projets complexes et l'optimisation de processus. Expert en communication et leadership d'équipe.",
+      "Développeur Full Stack passionné avec une solide expertise en React, Node.js et architecture cloud. Capacité éprouvée à concevoir des solutions performantes et à diriger des équipes techniques vers le succès.",
     photo: null,
     socials: [],
   },
   experiences: [
     {
       id: "exp1",
-      company: "Tech Solutions Inc.",
-      position: "Chef de Projet Senior",
-      startDate: "2020-01",
+      company: "Tech Innovators",
+      position: "Développeur Full Stack Senior",
+      startDate: "2021-01",
       endDate: "Présent",
       description:
-        "<p>Direction d'une équipe de 10 personnes. Augmentation de la productivité de 20%.</p>",
+        "<p>Architecture et développement d'applications SaaS scalables avec React, Node.js et PostgreSQL. Mise en place de pipelines CI/CD et mentorat de développeurs juniors.</p>",
     },
     {
       id: "exp2",
-      company: "Global Services",
-      position: "Analyste Commercial",
-      startDate: "2017-06",
-      endDate: "2019-12",
+      company: "Digital Creative Agency",
+      position: "Développeur Front-End",
+      startDate: "2018-06",
+      endDate: "2020-12",
       description:
-        "<p>Analyse de données de marché et recommandations stratégiques.</p>",
+        "<p>Création d'interfaces utilisateurs réactives et accessibles. Collaboration étroite avec les designers pour implémenter des designs pixel-perfect.</p>",
     },
   ],
   skills: [
-    { id: "sk1", name: "Gestion de Projet", level: 90 },
-    { id: "sk2", name: "Analyse de Données", level: 85 },
-    { id: "sk3", name: "Leadership", level: 88 },
+    { id: "sk1", name: "React / Next.js", level: 95 },
+    { id: "sk2", name: "Node.js / Express", level: 90 },
+    { id: "sk3", name: "TypeScript", level: 85 },
+    { id: "sk4", name: "Docker / AWS", level: 80 },
   ],
   education: [
     {
       id: "edu1",
-      institution: "École de Commerce de Paris",
-      degree: "Master en Management",
-      period: "2015 - 2017",
-      description: "Spécialisation en Stratégie d'Entreprise",
+      institution: "Université de Technologie",
+      degree: "Master en Ingénierie Logicielle",
+      period: "2016 - 2018",
+      description:
+        "Focus sur l'architecture distribuée et l'intelligence artificielle.",
     },
   ],
   certifications: [],
@@ -339,7 +341,10 @@ const TemplatesPage: React.FC<TemplatesPageProps> = ({ onUseTemplate }) => {
               {/* Live Preview Background */}
               <div className="absolute inset-0 overflow-hidden bg-gray-50">
                 <div className="transform scale-[0.35] origin-top-left w-[210mm] h-[297mm] pointer-events-none select-none opacity-90">
-                  <CVPreview cvData={tpl.data} cvRef={{ current: null }} />
+                  <CVPreview
+                    cvData={tpl.data}
+                    cvRef={{ current: null } as React.RefObject<HTMLDivElement>}
+                  />
                 </div>
               </div>
 

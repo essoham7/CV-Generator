@@ -4,7 +4,7 @@ import {
   Routes,
   Route,
   Link,
-  useNavigate,
+  // useNavigate,
 } from "react-router-dom";
 import { CVData, ChatMessage } from "./types/cv.types";
 import CVPreview from "./components/CVPreview";
@@ -18,6 +18,7 @@ import CertificationsForm from "./components/CertificationsForm";
 import LanguagesForm from "./components/LanguagesForm";
 import ReferencesForm from "./components/ReferencesForm";
 import InterestsForm from "./components/InterestsForm";
+import TemplatesPage from "./pages/TemplatesPage";
 import ExportButtons from "./components/ExportButtons";
 import { parseAICommand } from "./utils/aiCommandParser";
 import { calculateScore } from "./utils/scoreCalculator";
@@ -250,7 +251,7 @@ function EditorView({
   chatMessages,
   setChatMessages,
   cvRef,
-  isLoading,
+  // isLoading,
   setIsLoading,
 }: {
   cvData: CVData;
@@ -258,7 +259,7 @@ function EditorView({
   chatMessages: ChatMessage[];
   setChatMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
   cvRef: React.RefObject<HTMLDivElement>;
-  isLoading: boolean;
+  // isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [activeSection, setActiveSection] = useState<
@@ -272,7 +273,7 @@ function EditorView({
     | "interests"
   >("personal");
   const scoreResult = calculateScore(cvData);
-  const navigate = useNavigate();
+  // const navigate = useNavigate(); // Removed unused navigate
 
   const handleAICommand = async (message: string): Promise<void> => {
     setIsLoading(true);
@@ -300,7 +301,7 @@ function EditorView({
           dispatch({ type: "UPDATE_PRIMARY_COLOR", payload: command.value });
           responseText = `Couleur principale changée en ${command.value}`;
           break;
-        case "rephrase":
+        case "rephrase": {
           // Trouver et mettre à jour l'expérience
           const experience = cvData.experiences.find((exp) =>
             exp.company.toLowerCase().includes(command.target.toLowerCase()),
@@ -318,6 +319,7 @@ function EditorView({
             responseText = `Aucune expérience trouvée pour ${command.target}`;
           }
           break;
+        }
         default:
           responseText = "Commande non reconnue";
       }
@@ -363,14 +365,24 @@ function EditorView({
                   </span>
                 </div>
               </Link>
-              
+
               <nav className="hidden md:flex items-center gap-1">
                 <Link
                   to="/templates"
                   className="px-4 py-2 rounded-full text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all flex items-center gap-2"
                 >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+                    />
                   </svg>
                   Modèles
                 </Link>
@@ -382,7 +394,9 @@ function EditorView({
               {/* Style Tools */}
               <div className="hidden lg:flex items-center gap-3 bg-gray-50 px-3 py-1.5 rounded-full border border-gray-200">
                 <div className="flex items-center gap-2 border-r border-gray-200 pr-3">
-                  <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Police</span>
+                  <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Police
+                  </span>
                   <select
                     value={cvData.fontFamily || ""}
                     onChange={(e) =>
@@ -398,12 +412,16 @@ function EditorView({
                     <option value="Arial, Helvetica, sans-serif">Arial</option>
                     <option value="Roboto, Arial, sans-serif">Roboto</option>
                     <option value="Georgia, serif">Georgia</option>
-                    <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                    <option value="'Times New Roman', Times, serif">
+                      Times New Roman
+                    </option>
                   </select>
                 </div>
-                
+
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Couleur</span>
+                  <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Couleur
+                  </span>
                   <div className="relative flex items-center">
                     <input
                       type="color"
@@ -417,9 +435,7 @@ function EditorView({
                       className="w-6 h-6 p-0 border-0 rounded-full overflow-hidden cursor-pointer shadow-sm"
                       title="Couleur principale"
                     />
-                    <div 
-                      className="absolute inset-0 rounded-full ring-1 ring-inset ring-black/10 pointer-events-none"
-                    />
+                    <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-black/10 pointer-events-none" />
                   </div>
                 </div>
               </div>
@@ -448,94 +464,94 @@ function EditorView({
             {/* Section Navigation */}
             <div className="sticky top-0 z-10 mb-8 bg-white/90 backdrop-blur rounded-lg p-2 shadow-sm">
               <div className="flex gap-1 flex-wrap md:flex-nowrap overflow-x-auto">
-              <button
-                onClick={() => setActiveSection("personal")}
-                className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                  activeSection === "personal"
-                    ? "bg-white text-gray-900 shadow-sm"
-                    : "text-gray-600 hover:text-gray-900"
-                }`}
-              >
-                <User className="w-4 h-4 mr-2" />
-                Personnel
-              </button>
-              <button
-                onClick={() => setActiveSection("experience")}
-                className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                  activeSection === "experience"
-                    ? "bg-white text-gray-900 shadow-sm"
-                    : "text-gray-600 hover:text-gray-900"
-                }`}
-              >
-                <Briefcase className="w-4 h-4 mr-2" />
-                Expérience
-              </button>
-              <button
-                onClick={() => setActiveSection("skills")}
-                className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                  activeSection === "skills"
-                    ? "bg-white text-gray-900 shadow-sm"
-                    : "text-gray-600 hover:text-gray-900"
-                }`}
-              >
-                <Brain className="w-4 h-4 mr-2" />
-                Compétences
-              </button>
-              <button
-                onClick={() => setActiveSection("education")}
-                className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                  activeSection === "education"
-                    ? "bg-white text-gray-900 shadow-sm"
-                    : "text-gray-600 hover:text-gray-900"
-                }`}
-              >
-                <GraduationCap className="w-4 h-4 mr-2" />
-                Formation
-              </button>
-              <button
-                onClick={() => setActiveSection("certifications")}
-                className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                  activeSection === "certifications"
-                    ? "bg-white text-gray-900 shadow-sm"
-                    : "text-gray-600 hover:text-gray-900"
-                }`}
-              >
-                <Award className="w-4 h-4 mr-2" />
-                Certifications
-              </button>
-              <button
-                onClick={() => setActiveSection("languages")}
-                className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                  activeSection === "languages"
-                    ? "bg-white text-gray-900 shadow-sm"
-                    : "text-gray-600 hover:text-gray-900"
-                }`}
-              >
-                <Languages className="w-4 h-4 mr-2" />
-                Langues
-              </button>
-              <button
-                onClick={() => setActiveSection("references")}
-                className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                  activeSection === "references"
-                    ? "bg-white text-gray-900 shadow-sm"
-                    : "text-gray-600 hover:text-gray-900"
-                }`}
-              >
-                <Users className="w-4 h-4 mr-2" />
-                Références
-              </button>
-              <button
-                onClick={() => setActiveSection("interests")}
-                className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                  activeSection === "interests"
-                    ? "bg-white text-gray-900 shadow-sm"
-                    : "text-gray-600 hover:text-gray-900"
-                }`}
-              >
-                <Heart className="w-4 h-4 mr-2" />
-                Centres d’intérêt
-              </button>
+                <button
+                  onClick={() => setActiveSection("personal")}
+                  className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
+                    activeSection === "personal"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  <User className="w-4 h-4 mr-2" />
+                  Personnel
+                </button>
+                <button
+                  onClick={() => setActiveSection("experience")}
+                  className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
+                    activeSection === "experience"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  <Briefcase className="w-4 h-4 mr-2" />
+                  Expérience
+                </button>
+                <button
+                  onClick={() => setActiveSection("skills")}
+                  className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
+                    activeSection === "skills"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  <Brain className="w-4 h-4 mr-2" />
+                  Compétences
+                </button>
+                <button
+                  onClick={() => setActiveSection("education")}
+                  className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
+                    activeSection === "education"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  <GraduationCap className="w-4 h-4 mr-2" />
+                  Formation
+                </button>
+                <button
+                  onClick={() => setActiveSection("certifications")}
+                  className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
+                    activeSection === "certifications"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  <Award className="w-4 h-4 mr-2" />
+                  Certifications
+                </button>
+                <button
+                  onClick={() => setActiveSection("languages")}
+                  className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
+                    activeSection === "languages"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  <Languages className="w-4 h-4 mr-2" />
+                  Langues
+                </button>
+                <button
+                  onClick={() => setActiveSection("references")}
+                  className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
+                    activeSection === "references"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  <Users className="w-4 h-4 mr-2" />
+                  Références
+                </button>
+                <button
+                  onClick={() => setActiveSection("interests")}
+                  className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
+                    activeSection === "interests"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  <Heart className="w-4 h-4 mr-2" />
+                  Centres d’intérêt
+                </button>
               </div>
             </div>
 
@@ -659,6 +675,7 @@ function App() {
   const [cvData, dispatch] = useReducer(cvReducer, initialCVData);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  // isLoading is currently unused in UI but kept for state logic if needed
   const cvRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -673,7 +690,7 @@ function App() {
               chatMessages={chatMessages}
               setChatMessages={setChatMessages}
               cvRef={cvRef}
-              isLoading={isLoading}
+              // isLoading={isLoading}
               setIsLoading={setIsLoading}
             />
           }
@@ -692,7 +709,5 @@ function App() {
     </Router>
   );
 }
-
-import TemplatesPage from "./pages/TemplatesPage";
 
 export default App;
