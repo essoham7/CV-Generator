@@ -1,5 +1,5 @@
 import React from "react";
-import { CVData, CVPreviewProps } from "../types/cv.types";
+import { CVPreviewProps } from "../types/cv.types";
 import ModernTemplate from "./templates/ModernTemplate";
 import ClassicTemplate from "./templates/ClassicTemplate";
 import SidebarTemplate from "./templates/SidebarTemplate";
@@ -22,7 +22,7 @@ const CVPreview: React.FC<CVPreviewProps> = ({ cvData, cvRef }) => {
       case "calligraphic":
       case "elegant":
         return <ClassicTemplate cvData={cvData} />;
-      
+
       case "professional":
       case "corporate":
       case "industrial":

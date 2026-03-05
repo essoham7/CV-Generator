@@ -25,7 +25,6 @@ export const buildClassicLayout = (cvData: CVData) => {
   //   : null;
 
   // Header
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sections.push(
     new Paragraph({
       alignment: AlignmentType.CENTER,
